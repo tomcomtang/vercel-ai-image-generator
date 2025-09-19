@@ -52,16 +52,34 @@ function createErrorResponse(error, message, status = 400) {
     message
   }), {
     status: status,
-    headers: { 'Content-Type': 'application/json' }
+    headers: { 
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    }
   });
 }
 
 export default async function onRequest(context) {
   const { request, env } = context;
   
+  // 处理OPTIONS预检请求
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Max-Age': '86400'
+      }
+    });
+  }
+  
   try {
     // 解析请求体
-    const { prompt, model , size = '1024x1024' } = request.body;
+    const { prompt, model , size = '640x640' } = request.body;
 
     if (!prompt) {
       return createErrorResponse('PROMPT_REQUIRED', 'Prompt is required', 400);
@@ -85,7 +103,7 @@ export default async function onRequest(context) {
     const imageResult = await generateImage({
       model: imageModel,
       prompt: prompt,
-      size: '1024x1024', // 固定为1024x1024
+      size: '640x640', // 固定为640x640
     });
 
     // 统一处理返回格式
@@ -97,7 +115,12 @@ export default async function onRequest(context) {
         base64: imageResult.image.base64,
       }],
     }), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+      }
     });
 
   } catch (error) {

@@ -18,7 +18,7 @@ interface GeneratedImage {
 export default function Home() {
   const [prompt, setPrompt] = useState('')
   const [model, setModel] = useState('accounts/fireworks/models/stable-diffusion-xl-1024-v1-0')
-  const [size, setSize] = useState('1024x1024')
+  const [size, setSize] = useState('640x640')
   const [images, setImages] = useState<GeneratedImage[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -38,7 +38,12 @@ export default function Home() {
     setGenerationTime(null)
 
     try {
-      const response = await fetch('/api/generate-image', {
+      // 开发模式使用本地8088端口，生产模式使用相对路径
+      const apiUrl = process.env.NODE_ENV === 'development' 
+        ? 'http://localhost:8088/api/generate-image'
+        : '/api/generate-image'
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +75,7 @@ export default function Home() {
 
   const handleTimeout = () => {
     setLoading(false)
-    setError('Image generation timeout (10 seconds)')
+    setError('Image generation timeout (20 seconds)')
   }
 
   const downloadImage = async (url: string, filename: string) => {

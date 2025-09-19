@@ -6,13 +6,13 @@ interface CountdownTimerProps {
 }
 
 export default function CountdownTimer({ isActive, onComplete }: CountdownTimerProps) {
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(20);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
     if (isActive) {
-      setTimeLeft(10);
+      setTimeLeft(20);
       interval = setInterval(() => {
         setTimeLeft(prev => {
           const newTime = prev - 0.1;
@@ -24,7 +24,7 @@ export default function CountdownTimer({ isActive, onComplete }: CountdownTimerP
         });
       }, 100); // 每100ms更新一次，显示小数
     } else {
-      setTimeLeft(10);
+      setTimeLeft(20);
     }
 
     return () => {
@@ -47,7 +47,7 @@ export default function CountdownTimer({ isActive, onComplete }: CountdownTimerP
         <div 
           className="absolute inset-0 w-16 h-16 rounded-full border-2 border-transparent border-t-blue-500 transition-all duration-100"
           style={{
-            transform: `rotate(${((10 - timeLeft) * 36) - 90}deg)`, // 10秒转360度
+            transform: `rotate(${((20 - timeLeft) * 18) - 90}deg)`, // 20秒转360度
           }}
         />
       </div>

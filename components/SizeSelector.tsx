@@ -7,7 +7,7 @@ interface SizeSelectorProps {
 }
 
 const sizeOptions = [
-  { value: '1024x1024', label: '1024 x 1024' },
+  { value: '640x640', label: '640 x 640' },
 ];
 
 export default function SizeSelector({ size, onSizeChange }: SizeSelectorProps) {
