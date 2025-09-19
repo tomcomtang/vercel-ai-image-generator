@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #000000;
+  min-height: 100vh;
+  overflow: hidden; /* 防止页面滚动 */
+}
+
+html {
+  overflow: hidden; /* 防止页面滚动 */
+}
+
+/* Fix select dropdown positioning */
+select {
+  position: relative;
+  z-index: 10;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+select:focus {
+  z-index: 20;
+}
+
+/* Ensure select dropdown alignment */
+select option {
+  padding: 8px 12px;
+  background-color: #1f2937;
+  color: white;
+}
+
+/* SVG Background */
+.svg-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.15;
+}
+
+.svg-background svg {
+  width: 100%;
+  height: 100%;
+}
