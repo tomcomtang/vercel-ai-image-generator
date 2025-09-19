@@ -129,10 +129,17 @@ export default async function onRequest(context) {
     // 提取具体的错误信息
     let errorMessage = 'Failed to generate image';
     
+    // 尝试多种错误格式
     if (error?.data?.error?.message) {
       errorMessage = error.data.error.message;
+    } else if (error?.data?.message) {
+      errorMessage = error.data.message;
+    } else if (error?.error?.message) {
+      errorMessage = error.error.message;
     } else if (error?.message) {
       errorMessage = error.message;
+    } else if (typeof error === 'string') {
+      errorMessage = error;
     }
     
     return createErrorResponse('GENERATION_FAILED', errorMessage, 500);

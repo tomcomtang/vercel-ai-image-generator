@@ -58,7 +58,7 @@ export default function Home() {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to generate image')
+        throw new Error(data.message || data.error || 'Failed to generate image')
       }
 
       // 记录生成完成的时间戳
