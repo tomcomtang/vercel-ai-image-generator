@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 interface DropdownOption {
   value: string;
   label: string;
+  disabled?: boolean;
 }
 
 interface CustomDropdownProps {
@@ -21,12 +22,22 @@ export default function CustomDropdown({
   className = ""
 }: CustomDropdownProps) {
   const [showDropdown, setShowDropdown] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
+  const [currentText, setCurrentText] = React.useState('');
+  const [nextText, setNextText] = React.useState('');
+  const [isTransitioning, setIsTransitioning] = React.useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // 初始化当前文本
+  React.useEffect(() => {
+    const selectedOption = options.find(option => option.value === value);
+    setCurrentText(selectedOption ? selectedOption.label : placeholder);
+  }, [options, value, placeholder]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowDropdown(false);
+        handleCloseDropdown();
       }
     };
 
@@ -36,17 +47,69 @@ export default function CustomDropdown({
     };
   }, []);
 
+  // 监听 value 变化，触发文本淡入淡出切换效果
+  useEffect(() => {
+    const selectedOption = options.find(option => option.value === value);
+    const newText = selectedOption ? selectedOption.label : placeholder;
+    
+    if (newText !== currentText) {
+      setNextText(newText);
+      setIsTransitioning(true);
+      
+      // 300ms 后完成切换
+      const timer = setTimeout(() => {
+        setCurrentText(newText);
+        setNextText('');
+        setIsTransitioning(false);
+      }, 300);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [value, options, placeholder, currentText]);
+
+  const handleOpenDropdown = () => {
+    setShowDropdown(true);
+    // 使用 requestAnimationFrame 确保 DOM 更新后再开始动画
+    requestAnimationFrame(() => {
+      setIsVisible(true);
+    });
+  };
+
+  const handleCloseDropdown = () => {
+    setIsVisible(false);
+    // 等待动画完成后再隐藏元素
+    setTimeout(() => {
+      setShowDropdown(false);
+    }, 400); // 动画持续时间
+  };
+
   const selectedOption = options.find(option => option.value === value);
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       <button
-        onClick={() => setShowDropdown(!showDropdown)}
+        onClick={() => showDropdown ? handleCloseDropdown() : handleOpenDropdown()}
         className="w-full bg-black border border-gray-600 hover:border-gray-500 focus:outline-none focus:ring-1 focus:ring-white focus:border-transparent text-white py-2 px-3 pr-4 rounded-lg transition-colors text-left flex items-center justify-between text-xs"
       >
-        <span className="text-xs">
-          {selectedOption ? selectedOption.label : placeholder}
-        </span>
+        <div className="relative text-xs">
+          {/* 当前文本 - 淡出 */}
+          <span 
+            className={`transition-opacity duration-300 ease-in-out ${
+              isTransitioning ? 'opacity-0' : 'opacity-100'
+            }`}
+          >
+            {currentText}
+          </span>
+          
+          {/* 新文本 - 淡入 */}
+          {isTransitioning && nextText && (
+            <span 
+              className="absolute inset-0 transition-opacity duration-300 ease-in-out opacity-100"
+            >
+              {nextText}
+            </span>
+          )}
+        </div>
         <svg 
           className={`w-4 h-4 text-white transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`} 
           fill="none" 
@@ -57,22 +120,31 @@ export default function CustomDropdown({
         </svg>
       </button>
       {showDropdown && (
-        <div className="absolute bottom-full left-0 right-0 mb-1 bg-black border border-gray-600 rounded-lg shadow-lg z-50">
+        <div className={`absolute bottom-full left-0 right-0 mb-1 bg-black border border-gray-600 rounded-lg shadow-lg z-50 transition-all duration-500 ease-out transform origin-bottom ${
+          isVisible 
+            ? 'opacity-100 translate-y-0 scale-y-100' 
+            : 'opacity-0 translate-y-4 scale-y-90'
+        }`}>
           {options.map((option, index) => (
             <button
               key={option.value}
               onClick={() => {
-                onChange(option.value);
-                setShowDropdown(false);
+                if (!option.disabled) {
+                  onChange(option.value);
+                  handleCloseDropdown();
+                }
               }}
+              disabled={option.disabled}
               className={`w-full text-left px-3 py-2 text-xs ${
                 index === 0 ? 'first:rounded-t-lg' : ''
               } ${
                 index === options.length - 1 ? 'last:rounded-b-lg' : ''
               } ${
-                value === option.value 
-                  ? 'bg-gray-700 text-white' 
-                  : 'text-white hover:bg-gray-800'
+                option.disabled
+                  ? 'text-gray-500 cursor-not-allowed'
+                  : value === option.value 
+                    ? 'bg-gray-700 text-white' 
+                    : 'text-white hover:bg-gray-800'
               }`}
             >
               {option.label}

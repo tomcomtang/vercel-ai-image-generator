@@ -1,4 +1,4 @@
-import { ImageIcon, Settings, Github } from 'lucide-react'
+import { ImageIcon, Github } from 'lucide-react'
 
 export default function Navigation() {
   return (
@@ -12,13 +12,15 @@ export default function Navigation() {
             <h1 className="text-xl font-bold text-white">AI Image Generator</h1>
           </div>
           
-          <div className="flex items-center space-x-4">
-            <button className="p-2 text-gray-400 hover:text-white transition-colors">
-              <Settings className="w-5 h-5" />
-            </button>
-            <button className="p-2 text-gray-400 hover:text-white transition-colors">
+          <div className="flex items-center">
+            <a 
+              href="https://github.com/tomcomtang/vercel-ai-image-generator" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-2 text-gray-400 hover:text-white transition-colors"
+            >
               <Github className="w-5 h-5" />
-            </button>
+            </a>
           </div>
         </div>
       </div>

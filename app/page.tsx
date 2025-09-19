@@ -17,17 +17,12 @@ interface GeneratedImage {
 
 export default function Home() {
   const [prompt, setPrompt] = useState('')
-  const [model, setModel] = useState('fal-ai/flux/dev')
+  const [model, setModel] = useState('accounts/fireworks/models/stable-diffusion-xl-1024-v1-0')
   const [size, setSize] = useState('1024x1024')
-  const [images, setImages] = useState<GeneratedImage[]>([
-    {
-      url: '/public.png',
-      base64: ''
-    }
-  ])
+  const [images, setImages] = useState<GeneratedImage[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [generationTime, setGenerationTime] = useState<string | null>('2024-01-15 14:30:25 UTC')
+  const [generationTime, setGenerationTime] = useState<string | null>(null)
 
   const handleExampleClick = (examplePrompt: string) => {
     setPrompt(examplePrompt);
@@ -111,7 +106,7 @@ export default function Home() {
                     Describe your image
                   </label>
                   {error && (
-                    <div className="flex items-center max-w-xs">
+                    <div className="flex items-center max-w-64">
                       <AlertCircle className="w-4 h-4 text-red-400 mr-2 flex-shrink-0" />
                       <p
                         className="text-red-400 text-sm truncate"
@@ -142,7 +137,7 @@ export default function Home() {
               </div>
               <div className="w-1/2 flex items-center justify-between">
                 <label className="text-sm font-medium text-gray-300">
-                  Generated Images
+                  Generation Result
                 </label>
                 <div className="flex items-center space-x-3">
                   <div className="text-xs text-gray-400">

@@ -41,19 +41,19 @@ export default function ImageDisplay({ images, loading, onDownload, onTimeout }:
             <div className="w-24 h-24 mx-auto mb-4 bg-gray-800 rounded-lg flex items-center justify-center">
               <ImageIcon className="w-12 h-12 text-gray-600" />
             </div>
-            <p className="text-gray-400 text-lg">Generated images will appear here</p>
-            <p className="text-gray-500 text-sm mt-2">Enter a description and click generate to start</p>
+            <p className="text-gray-400 text-lg">Generated image will appear here</p>
+            <p className="text-gray-500 text-sm mt-2">Enter a description on the left and click generate to start</p>
           </div>
         </div>
       ) : (
         /* 有图片时显示实际图片 */
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 p-0.5 bg-gray-400 rounded-lg">
           {images.map((image, index) => (
             <img
               key={index}
               src={image.url}
               alt={`Generated image ${index + 1}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-md"
             />
           ))}
         </div>
