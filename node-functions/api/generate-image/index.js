@@ -79,7 +79,7 @@ export default async function onRequest(context) {
   
   try {
     // 解析请求体
-    const { prompt, model , size = '640x640' } = request.body;
+    const { prompt, model , size = '1024x1024' } = request.body;
 
     if (!prompt) {
       return createErrorResponse('PROMPT_REQUIRED', 'Prompt is required', 400);
@@ -103,7 +103,7 @@ export default async function onRequest(context) {
     const imageResult = await generateImage({
       model: imageModel,
       prompt: prompt,
-      size: '640x640', // 固定为640x640
+      size: '1024x1024', // 固定为1024x1024
     });
 
     // 统一处理返回格式

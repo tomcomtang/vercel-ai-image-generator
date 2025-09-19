@@ -18,7 +18,7 @@ interface GeneratedImage {
 export default function Home() {
   const [prompt, setPrompt] = useState('')
   const [model, setModel] = useState('accounts/fireworks/models/stable-diffusion-xl-1024-v1-0')
-  const [size, setSize] = useState('640x640')
+  const [size, setSize] = useState('1024x1024')
   const [images, setImages] = useState<GeneratedImage[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')

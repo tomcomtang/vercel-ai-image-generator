@@ -67,7 +67,7 @@ Content-Type: application/json
 
 {
   "prompt": "A beautiful sunset over mountains",
-  "size": "640x640",
+  "size": "1024x1024",
   "quality": "standard"
 }
 ```
