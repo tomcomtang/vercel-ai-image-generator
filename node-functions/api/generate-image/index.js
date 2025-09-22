@@ -113,17 +113,17 @@ export default async function onRequest(context) {
     }
 
     // 获取用户ID（使用IP地址作为用户标识）
-    const clientIP = request.eo && request.eo.clientIp ? request.eo.clientIp : 'unknown-ip';
+    // const clientIP = request.eo && request.eo.clientIp ? request.eo.clientIp : 'unknown-ip';
 
-    // 检查用户频次限制
-    const rateLimitResult = await checkRateLimit(clientIP);
-    if (!rateLimitResult.allowed) {
-      return createErrorResponse(
-        'RATE_LIMIT_EXCEEDED', 
-        `You have reached the limit of ${rateLimitResult.limit} images. No more images can be generated.`, 
-        429
-      );
-    }
+    // // 检查用户频次限制
+    // const rateLimitResult = await checkRateLimit(clientIP);
+    // if (!rateLimitResult.allowed) {
+    //   return createErrorResponse(
+    //     'RATE_LIMIT_EXCEEDED', 
+    //     `You have reached the limit of ${rateLimitResult.limit} images. No more images can be generated.`, 
+    //     429
+    //   );
+    // }
 
     const modelConfig = modelProviderMap[model];
     if (!modelConfig) {
