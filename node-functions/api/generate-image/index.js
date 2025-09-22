@@ -6,6 +6,7 @@ import { luma } from '@ai-sdk/luma'
 import { togetherai } from '@ai-sdk/togetherai'
 import { xai } from '@ai-sdk/xai'
 import { fal } from '@ai-sdk/fal'
+import { replicate } from '@ai-sdk/replicate'
 import { experimental_generateImage as generateImage } from 'ai'
 
 // 模型到提供商的映射
@@ -43,6 +44,10 @@ const modelProviderMap = {
   'fal-ai/flux/dev': { provider: fal, envKey: 'FAL_API_KEY', envName: 'FAL' },
   'fal-ai/flux/schnell': { provider: fal, envKey: 'FAL_API_KEY', envName: 'FAL' },
   'fal-ai/flux-pro/v1.1': { provider: fal, envKey: 'FAL_API_KEY', envName: 'FAL' },
+  
+  // Replicate models
+  'stability-ai/stable-diffusion-3.5-medium': { provider: replicate, envKey: 'REPLICATE_API_TOKEN', envName: 'Replicate' },
+  'stability-ai/stable-diffusion-3.5-large': { provider: replicate, envKey: 'REPLICATE_API_TOKEN', envName: 'Replicate' },
 }
 
 // Helper to create consistent error responses
@@ -118,7 +123,7 @@ export default async function onRequest(context) {
       headers: { 
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       }
     });

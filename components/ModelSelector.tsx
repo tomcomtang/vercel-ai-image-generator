@@ -21,6 +21,10 @@ const modelOptions = [
   { value: 'dall-e-3', label: 'OpenAI/DALL-E 3' },
   { value: 'dall-e-2', label: 'OpenAI/DALL-E 2' },
   
+  // Replicate Models (启用) - 较旧但稳定的版本
+  { value: 'stability-ai/stable-diffusion-3.5-medium', label: 'Replicate/Stable Diffusion 3.5 Medium', disabled: true },
+  { value: 'stability-ai/stable-diffusion-3.5-large', label: 'Replicate/Stable Diffusion 3.5 Large', disabled: true },
+  
   // Google Models (禁用)
   { value: 'imagen-3.0-generate-002', label: 'Google/Imagen 3.0 Generate 002', disabled: true },
   
