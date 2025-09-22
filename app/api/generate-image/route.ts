@@ -88,7 +88,7 @@ function createErrorResponse(error: string, message: string, status = 400, reque
   });
 }
 
-export default async function POST(request: Request) {
+export async function POST(request: Request) {
   // // 处理OPTIONS预检请求
   // if (request.method === 'OPTIONS') {
   //   const headers = getCorsHeaders(request);
