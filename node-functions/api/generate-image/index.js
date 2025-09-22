@@ -182,26 +182,26 @@ export default async function onRequest(context) {
   }
 }
 
-async function checkRateLimit(clientIP) {
-  const key = `vercel-ai-image-generator-usage:${clientIP}`;
-  let value = await my_kv.get(key);
-  let count = 0;
+// async function checkRateLimit(clientIP) {
+//   const key = `vercel-ai-image-generator-usage:${clientIP}`;
+//   let value = await my_kv.get(key);
+//   let count = 0;
   
-  if (value) {
-    try {
-      count = parseInt(value);
-    } catch {
-      count = 0;
-    }
-  }
+//   if (value) {
+//     try {
+//       count = parseInt(value);
+//     } catch {
+//       count = 0;
+//     }
+//   }
   
-  const PERMANENT_LIMIT = 2; // 永久限制8张图片
+//   const PERMANENT_LIMIT = 8; // 永久限制8张图片
   
-  if (count >= PERMANENT_LIMIT) {
-    return false; // 已达到限制
-  } else {
-    count += 1;
-    await my_kv.put(key, count.toString());
-    return true; // 可以继续生成
-  }
-}
+//   if (count >= PERMANENT_LIMIT) {
+//     return false; // 已达到限制
+//   } else {
+//     count += 1;
+//     await my_kv.put(key, count.toString());
+//     return true; // 可以继续生成
+//   }
+// }
