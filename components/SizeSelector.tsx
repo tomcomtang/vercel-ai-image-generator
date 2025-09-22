@@ -4,13 +4,10 @@ import CustomDropdown from './CustomDropdown';
 interface SizeSelectorProps {
   size: string;
   onSizeChange: (size: string) => void;
+  sizeOptions: { value: string; label: string }[];
 }
 
-const sizeOptions = [
-  { value: '1024x1024', label: '1024 x 1024' },
-];
-
-export default function SizeSelector({ size, onSizeChange }: SizeSelectorProps) {
+export default function SizeSelector({ size, onSizeChange, sizeOptions }: SizeSelectorProps) {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-300 mb-3">

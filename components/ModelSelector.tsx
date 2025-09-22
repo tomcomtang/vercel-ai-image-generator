@@ -7,19 +7,11 @@ interface ModelSelectorProps {
 }
 
 const modelOptions = [
-  // Fireworks Models (启用)
-  { value: 'accounts/fireworks/models/stable-diffusion-xl-1024-v1-0', label: 'Fireworks/Stable Diffusion XL 1024 V1.0' },
-  { value: 'accounts/fireworks/models/playground-v2-1024px-aesthetic', label: 'Fireworks/Playground V2 1024px Aesthetic' },
-  { value: 'accounts/fireworks/models/flux-1-dev-fp8', label: 'Fireworks/FLUX 1 Dev FP8' },
-  
-  // FAL Models (启用)
-  { value: 'fal-ai/flux/dev', label: 'FAL/FLUX Dev' },
   { value: 'fal-ai/flux/schnell', label: 'FAL/FLUX Schnell' },
-  { value: 'fal-ai/flux-pro/v1.1', label: 'FAL/FLUX Pro V1.1' },
-  
+  { value: 'accounts/fireworks/models/stable-diffusion-xl-1024-v1-0', label: 'Fireworks/Stable Diffusion XL 1024 V1.0' },  
   // OpenAI Models (启用)
-  { value: 'dall-e-3', label: 'OpenAI/DALL-E 3' },
-  { value: 'dall-e-2', label: 'OpenAI/DALL-E 2' },
+  // { value: 'dall-e-3', label: 'OpenAI/DALL-E 3' },
+  // { value: 'dall-e-2', label: 'OpenAI/DALL-E 2' },
   
   // Replicate Models (启用) - 较旧但稳定的版本
   { value: 'stability-ai/stable-diffusion-3.5-medium', label: 'Replicate/Stable Diffusion 3.5 Medium', disabled: true },

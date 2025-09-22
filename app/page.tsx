@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { ImageIcon, Loader2, AlertCircle } from 'lucide-react'
 import Navigation from '../components/Navigation'
 import InputSection from '../components/InputSection'
@@ -8,6 +8,7 @@ import ExamplesSection from '../components/ExamplesSection'
 import ModelSelector from '../components/ModelSelector'
 import SizeSelector from '../components/SizeSelector'
 import ImageDisplay from '../components/ImageDisplay'
+import { getSupportedSizes, getDefaultSize } from '../components/modelSizeMapping'
 
 interface GeneratedImage {
   url: string
@@ -17,12 +18,27 @@ interface GeneratedImage {
 
 export default function Home() {
   const [prompt, setPrompt] = useState('')
-  const [model, setModel] = useState('accounts/fireworks/models/stable-diffusion-xl-1024-v1-0')
+  const [model, setModel] = useState('fal-ai/flux/schnell')
   const [size, setSize] = useState('1024x1024')
   const [images, setImages] = useState<GeneratedImage[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [generationTime, setGenerationTime] = useState<string | null>(null)
+
+  // 根据当前模型计算支持的尺寸列表
+  const sizeOptions = useMemo(() => {
+    const supportedSizes = getSupportedSizes(model)
+    return supportedSizes.map(size => ({
+      value: size,
+      label: size.replace('x', ' x ')
+    }))
+  }, [model])
+
+  // 当模型改变时，自动更新尺寸为默认尺寸
+  useEffect(() => {
+    const defaultSize = getDefaultSize(model)
+    setSize(defaultSize)
+  }, [model])
 
   const handleExampleClick = (examplePrompt: string) => {
     setPrompt(examplePrompt);
@@ -75,7 +91,7 @@ export default function Home() {
 
   const handleTimeout = () => {
     setLoading(false)
-    setError('Image generation timeout (20 seconds)')
+    setError('Image generation timeout (30 seconds)')
   }
 
   const downloadImage = async (url: string, filename: string) => {
@@ -193,6 +209,7 @@ export default function Home() {
                   <SizeSelector
                     size={size}
                     onSizeChange={setSize}
+                    sizeOptions={sizeOptions}
                   />
                 </div>
                 
