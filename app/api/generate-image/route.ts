@@ -51,8 +51,8 @@ const modelProviderMap = {
 }
 
 // 检查是否需要跨域头
-function shouldAddCorsHeaders(request) {
-  const referer = request.headers.referer;
+function shouldAddCorsHeaders(request: Request) {
+  const referer = request.headers.get('referer');
   if (!referer) return false;
   
   // 检查是否是本地开发环境
@@ -60,8 +60,8 @@ function shouldAddCorsHeaders(request) {
 }
 
 // 获取跨域头
-function getCorsHeaders(request) {
-  const baseHeaders = {
+function getCorsHeaders(request: Request) {
+  const baseHeaders: Record<string, string> = {
     'Content-Type': 'application/json'
   };
   
@@ -78,7 +78,7 @@ function getCorsHeaders(request) {
 }
 
 // Helper to create consistent error responses
-function createErrorResponse(error, message, status = 400, request) {
+function createErrorResponse(error: string, message: string, status = 400, request: Request) {
   return new Response(JSON.stringify({ 
     error, 
     message
@@ -88,25 +88,24 @@ function createErrorResponse(error, message, status = 400, request) {
   });
 }
 
-export default async function onRequest(context) {
-  const { request, env } = context;
-  
-  // 处理OPTIONS预检请求
-  if (request.method === 'OPTIONS') {
-    const headers = getCorsHeaders(request);
-    if (shouldAddCorsHeaders(request)) {
-      headers['Access-Control-Max-Age'] = '86400';
-    }
+export default async function POST(request: Request) {
+  // // 处理OPTIONS预检请求
+  // if (request.method === 'OPTIONS') {
+  //   const headers = getCorsHeaders(request);
+  //   if (shouldAddCorsHeaders(request)) {
+  //     headers['Access-Control-Max-Age'] = '86400';
+  //   }
     
-    return new Response(null, {
-      status: 200,
-      headers
-    });
-  }
+  //   return new Response(null, {
+  //     status: 200,
+  //     headers
+  //   });
+  // }
   
   try {
     // 解析请求体
-    const { prompt, model , size } = request.body;
+    const body = await request.json();
+    const { prompt, model, size } = body;
 
     if (!prompt) {
       return createErrorResponse('PROMPT_REQUIRED', 'Prompt is required', 400, request);
@@ -125,13 +124,13 @@ export default async function onRequest(context) {
     //   );
     // }
 
-    const modelConfig = modelProviderMap[model];
+    const modelConfig = modelProviderMap[model as keyof typeof modelProviderMap];
     if (!modelConfig) {
       return createErrorResponse('UNSUPPORTED_MODEL', 'Unsupported model', 400, request);
     }
 
     // 检查API密钥
-    const apiKey = env[modelConfig.envKey];
+    const apiKey = process.env[modelConfig.envKey];
     if (!apiKey) {
       return createErrorResponse('API_KEY_NOT_CONFIGURED', `${modelConfig.envName} API key not configured`, 500, request);
     }
@@ -159,7 +158,7 @@ export default async function onRequest(context) {
       headers: getCorsHeaders(request)
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error generating image:', error);
     
     // 提取具体的错误信息
