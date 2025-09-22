@@ -54,10 +54,8 @@ export default function Home() {
     setGenerationTime(null)
 
     try {
-      // 开发模式使用本地8088端口，生产模式使用相对路径
-      const apiUrl = process.env.NODE_ENV === 'development' 
-        ? 'http://localhost:8088/api/generate-image'
-        : '/api/generate-image'
+      // 开发模式和生产模式都使用相对路径
+      const apiUrl = '/api/generate-image'
       
       const response = await fetch(apiUrl, {
         method: 'POST',
