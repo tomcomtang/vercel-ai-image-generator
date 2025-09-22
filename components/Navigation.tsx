@@ -10,6 +10,7 @@ export default function Navigation() {
               <ImageIcon className="w-5 h-5 text-white" />
             </div>
             <h1 className="text-xl font-bold text-white">AI Image Generator</h1>
+            <span className="text-sm text-gray-400 ml-4">Powered by Vercel AI SDK</span>
           </div>
           
           <div className="flex items-center">
