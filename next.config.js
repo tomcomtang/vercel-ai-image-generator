@@ -1,12 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 只在生产环境使用静态导出
-  ...(process.env.NODE_ENV === 'production' && { output: 'export' }),
-  trailingSlash: true,
+  output: 'export',  // 启用静态导出
   images: {
-    unoptimized: true,
-    domains: ['oaidalleapiprodscus.blob.core.windows.net'],
+    unoptimized: true  // 静态导出时需要禁用图片优化
   },
-}
-
+  trailingSlash: true,  // 添加尾部斜杠，提高兼容性
+};
 module.exports = nextConfig
