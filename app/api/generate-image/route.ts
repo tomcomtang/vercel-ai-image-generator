@@ -89,18 +89,6 @@ function createErrorResponse(error: string, message: string, status = 400, reque
 }
 
 export async function POST(request: Request) {
-  // // 处理OPTIONS预检请求
-  // if (request.method === 'OPTIONS') {
-  //   const headers = getCorsHeaders(request);
-  //   if (shouldAddCorsHeaders(request)) {
-  //     headers['Access-Control-Max-Age'] = '86400';
-  //   }
-    
-  //   return new Response(null, {
-  //     status: 200,
-  //     headers
-  //   });
-  // }
   
   try {
     // 解析请求体
@@ -110,19 +98,6 @@ export async function POST(request: Request) {
     if (!prompt) {
       return createErrorResponse('PROMPT_REQUIRED', 'Prompt is required', 400, request);
     }
-
-    // 获取用户ID（使用IP地址作为用户标识）
-    // const clientIP = request.eo && request.eo.clientIp ? request.eo.clientIp : 'unknown-ip';
-
-    // // 检查用户频次限制
-    // const rateLimitResult = await checkRateLimit(clientIP);
-    // if (!rateLimitResult.allowed) {
-    //   return createErrorResponse(
-    //     'RATE_LIMIT_EXCEEDED', 
-    //     `You have reached the limit of ${rateLimitResult.limit} images. No more images can be generated.`, 
-    //     429
-    //   );
-    // }
 
     const modelConfig = modelProviderMap[model as keyof typeof modelProviderMap];
     if (!modelConfig) {
@@ -180,27 +155,3 @@ export async function POST(request: Request) {
     return createErrorResponse('GENERATION_FAILED', errorMessage, 500, request);
   }
 }
-
-// async function checkRateLimit(clientIP) {
-//   const key = `vercel-ai-image-generator-usage:${clientIP}`;
-//   let value = await my_kv.get(key);
-//   let count = 0;
-  
-//   if (value) {
-//     try {
-//       count = parseInt(value);
-//     } catch {
-//       count = 0;
-//     }
-//   }
-  
-//   const PERMANENT_LIMIT = 8; // 永久限制8张图片
-  
-//   if (count >= PERMANENT_LIMIT) {
-//     return false; // 已达到限制
-//   } else {
-//     count += 1;
-//     await my_kv.put(key, count.toString());
-//     return true; // 可以继续生成
-//   }
-// }
