@@ -28,7 +28,7 @@ export default function CustomDropdown({
   const [isTransitioning, setIsTransitioning] = React.useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 初始化当前文本
+  // Initialize current text
   React.useEffect(() => {
     const selectedOption = options.find(option => option.value === value);
     setCurrentText(selectedOption ? selectedOption.label : placeholder);
@@ -47,7 +47,7 @@ export default function CustomDropdown({
     };
   }, []);
 
-  // 监听 value 变化，触发文本淡入淡出切换效果
+  // Listen to value changes, trigger text fade in/out transition effect
   useEffect(() => {
     const selectedOption = options.find(option => option.value === value);
     const newText = selectedOption ? selectedOption.label : placeholder;
@@ -56,7 +56,7 @@ export default function CustomDropdown({
       setNextText(newText);
       setIsTransitioning(true);
       
-      // 300ms 后完成切换
+      // Complete transition after 300ms
       const timer = setTimeout(() => {
         setCurrentText(newText);
         setNextText('');
@@ -69,7 +69,7 @@ export default function CustomDropdown({
 
   const handleOpenDropdown = () => {
     setShowDropdown(true);
-    // 使用 requestAnimationFrame 确保 DOM 更新后再开始动画
+    // Use requestAnimationFrame to ensure DOM update before starting animation
     requestAnimationFrame(() => {
       setIsVisible(true);
     });
@@ -77,10 +77,10 @@ export default function CustomDropdown({
 
   const handleCloseDropdown = () => {
     setIsVisible(false);
-    // 等待动画完成后再隐藏元素
+    // Wait for animation to complete before hiding element
     setTimeout(() => {
       setShowDropdown(false);
-    }, 400); // 动画持续时间
+    }, 400); // Animation duration
   };
 
   const selectedOption = options.find(option => option.value === value);
@@ -92,7 +92,7 @@ export default function CustomDropdown({
         className="w-full bg-black border border-gray-600 hover:border-gray-500 focus:outline-none focus:ring-1 focus:ring-white focus:border-transparent text-white py-2 px-3 pr-4 rounded-lg transition-colors text-left flex items-center justify-between text-xs"
       >
         <div className="relative text-xs">
-          {/* 当前文本 - 淡出 */}
+          {/* Current text - fade out */}
           <span 
             className={`transition-opacity duration-300 ease-in-out ${
               isTransitioning ? 'opacity-0' : 'opacity-100'
@@ -101,7 +101,7 @@ export default function CustomDropdown({
             {currentText}
           </span>
           
-          {/* 新文本 - 淡入 */}
+          {/* New text - fade in */}
           {isTransitioning && nextText && (
             <span 
               className="absolute inset-0 transition-opacity duration-300 ease-in-out opacity-100"

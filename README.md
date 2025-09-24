@@ -1,65 +1,94 @@
-# AI Image Generator
+# Vercel AI SDK Image Generator
 
-一个使用 Vercel AI SDK 和 OpenAI DALL-E 3 的图片生成应用。
+A powerful AI-powered image generation application built with Vercel AI SDK, supporting multiple AI providers and models for creating stunning images from text descriptions.
 
-## 功能特性
+## 🚀 Deploy
 
-- 🎨 使用 OpenAI DALL-E 3 生成高质量图片
-- 📱 响应式设计，支持移动端
-- 🎯 多种图片尺寸选择（正方形、竖版、横版）
-- ⚡ 标准和高清质量选项
-- 💾 一键下载生成的图片
-- 🔄 实时生成状态显示
+[![Deploy to EdgeOne](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://console.tencentcloud.com/edgeone/pages/new?template=https%3A%2F%2Fgithub.com%2Ftomcomtang%2Fvercel-ai-image-generator&output-directory=.next&build-command=npm+run+build&install-command=npm+install)
 
-## 技术栈
+## 🎨 Features
 
-- **Next.js 14** - React 框架
-- **TypeScript** - 类型安全
-- **Tailwind CSS** - 样式框架
-- **AI SDK** - Vercel AI SDK
-- **@ai-sdk/openai** - OpenAI 集成
-- **Lucide React** - 图标库
+- **Multi-Provider Support**: Integration with OpenAI DALL-E, FAL AI FLUX, Fireworks, Replicate, and more
+- **Dynamic Model Selection**: Choose from various AI models with different capabilities
+- **Smart Size Mapping**: Each model supports specific image dimensions automatically
+- **Real-time Generation**: Live countdown timer and progress tracking
+- **Rate Limiting**: Built-in user rate limiting (2 images per IP)
+- **Responsive Design**: Optimized for desktop and mobile devices
+- **One-Click Download**: Easy image download functionality
+- **CORS Handling**: Smart cross-origin request handling for development and production
 
-## 快速开始
+## 🚀 Supported Models
 
-### 1. 安装依赖
+### OpenAI Models
+
+- **DALL-E 3**: High-quality image generation with multiple aspect ratios
+- **DALL-E 2**: Classic image generation with various sizes
+
+### FAL AI Models
+
+- **FLUX Dev**: Professional-grade image generation
+- **FLUX Schnell**: Fast image generation (256x256 only)
+- **FLUX Pro V1.1**: Advanced image generation capabilities
+
+### Fireworks Models
+
+- **Stable Diffusion XL**: High-resolution image generation
+- **Playground V2**: Aesthetic-focused image generation
+- **FLUX 1 Dev FP8**: Optimized FLUX model
+
+### Replicate Models
+
+- **Stable Diffusion 3.5 Medium**: Balanced quality and speed
+- **Stable Diffusion 3.5 Large**: High-quality generation
+
+## 🛠️ Tech Stack
+
+- **Next.js 14** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **Vercel AI SDK** - Unified AI provider interface
+- **Multiple AI Providers** - OpenAI, FAL AI, Fireworks, Replicate
+- **Lucide React** - Beautiful icon library
+
+## 🚀 Quick Start
+
+### 1. Clone and Install
 
 ```bash
+git clone <repository-url>
+cd vercel-ai-image-generator
 npm install
 ```
 
-### 2. 配置环境变量
+### 2. Environment Setup
 
-复制 `.env.example` 文件为 `.env.local`：
+Create a `.env.local` file with your API keys:
 
 ```bash
-cp .env.example .env.local
+# OpenAI (for DALL-E models)
+OPENAI_API_KEY=your_openai_api_key
+
+# FAL AI (for FLUX models)
+FAL_API_KEY=your_fal_api_key
+
+# Fireworks (for Fireworks models)
+FIREWORKS_API_KEY=your_fireworks_api_key
+
+# Replicate (for Replicate models)
+REPLICATE_API_TOKEN=your_replicate_token
 ```
 
-在 `.env.local` 中填入你的 OpenAI API Key：
-
-```
-OPENAI_API_KEY=your_openai_api_key_here
-```
-
-### 3. 运行开发服务器
+### 3. Run Development Server
 
 ```bash
 npm run dev
 ```
 
-打开 [http://localhost:3000](http://localhost:3000) 查看应用。
+Visit [http://localhost:3000](http://localhost:3000) to start generating images!
 
-## 部署到 Vercel
+## 📡 API Usage
 
-1. 将代码推送到 GitHub
-2. 在 [Vercel](https://vercel.com) 中导入项目
-3. 在 Vercel 项目设置中添加环境变量 `OPENAI_API_KEY`
-4. 部署完成！
-
-## API 使用
-
-### 生成图片
+### Generate Image
 
 ```bash
 POST /api/generate-image
@@ -67,48 +96,89 @@ Content-Type: application/json
 
 {
   "prompt": "A beautiful sunset over mountains",
-  "size": "1024x1024",
-  "quality": "standard"
+  "model": "fal-ai/flux/schnell",
+  "size": "256x256"
 }
 ```
 
-### 响应
+### Response
 
 ```json
 {
   "images": [
     {
-      "url": "https://...",
-      "revised_prompt": "A beautiful sunset over mountains with warm orange and pink hues..."
+      "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
+      "base64": "iVBORw0KGgoAAAANSUhEUgAA..."
     }
   ]
 }
 ```
 
-## 项目结构
+## 📁 Project Structure
 
 ```
 ├── app/
 │   ├── api/
 │   │   └── generate-image/
-│   │       └── route.ts          # API 路由
-│   ├── globals.css               # 全局样式
-│   ├── layout.tsx                # 根布局
-│   └── page.tsx                  # 主页面
-├── .env.example                  # 环境变量示例
-├── next.config.js                # Next.js 配置
-├── package.json                  # 项目依赖
-├── tailwind.config.js            # Tailwind 配置
-└── tsconfig.json                 # TypeScript 配置
+│   │       └── route.ts          # API route handler
+│   ├── globals.css               # Global styles
+│   ├── layout.tsx                # Root layout
+│   └── page.tsx                  # Main page
+├── components/
+│   ├── CountdownTimer.tsx        # Generation timer
+│   ├── CustomDropdown.tsx        # Custom dropdown
+│   ├── ExamplesSection.tsx      # Example prompts
+│   ├── ImageDisplay.tsx          # Image display
+│   ├── InputSection.tsx          # Input components
+│   ├── ModelSelector.tsx         # Model selection
+│   ├── Navigation.tsx            # Navigation bar
+│   ├── SizeSelector.tsx          # Size selection
+│   └── modelSizeMapping.ts       # Model-size mapping
+├── next.config.js                # Next.js configuration
+├── package.json                  # Dependencies
+├── tailwind.config.js            # Tailwind configuration
+└── tsconfig.json                 # TypeScript configuration
 ```
 
-## 注意事项
+## 📚 Documentation References
 
-- 需要有效的 OpenAI API Key
-- DALL-E 3 每次只能生成一张图片
-- 生成的图片会在 1 小时后过期
-- 建议在生产环境中添加速率限制
+- [Vercel AI SDK Documentation](https://sdk.vercel.ai/)
+- [Next.js App Router Guide](https://nextjs.org/docs/app)
+- [OpenAI API Documentation](https://platform.openai.com/docs)
+- [FAL AI Documentation](https://fal.ai/docs)
+- [Fireworks AI Documentation](https://fireworks.ai/docs)
+- [Replicate API Documentation](https://replicate.com/docs)
 
-## 许可证
+## ⚠️ Important Notes
 
-MIT License
+- **Rate Limiting**: Each IP is limited to 2 images permanently
+- **API Keys**: Ensure all required API keys are properly configured
+- **Model Compatibility**: Different models support different image sizes
+- **CORS**: Automatic CORS handling for development environments
+- **Error Handling**: Comprehensive error handling with user-friendly messages
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🙏 Acknowledgments
+
+- [Vercel](https://vercel.com) for the amazing AI SDK
+- [OpenAI](https://openai.com) for DALL-E models
+- [FAL AI](https://fal.ai) for FLUX models
+- [Fireworks](https://fireworks.ai) for their AI platform
+- [Replicate](https://replicate.com) for model hosting
+
+---
+
+**Built with ❤️ using Vercel AI SDK**

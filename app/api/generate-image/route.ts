@@ -9,7 +9,7 @@ import { fal } from '@ai-sdk/fal'
 import { replicate } from '@ai-sdk/replicate'
 import { experimental_generateImage as generateImage } from 'ai'
 
-// 模型到提供商的映射
+// Model to provider mapping
 const modelProviderMap = {
   // OpenAI models
   'dall-e-3': { provider: openai, envKey: 'OPENAI_API_KEY', envName: 'OpenAI' },
@@ -50,16 +50,16 @@ const modelProviderMap = {
   'stability-ai/stable-diffusion-3.5-large': { provider: replicate, envKey: 'REPLICATE_API_TOKEN', envName: 'Replicate' },
 }
 
-// 检查是否需要跨域头
+// Check if CORS headers should be added
 function shouldAddCorsHeaders(request: Request) {
   const referer = request.headers.get('referer');
   if (!referer) return false;
   
-  // 检查是否是本地开发环境
+  // Check if it's local development environment
   return referer.includes('localhost:300') || referer.includes('127.0.0.1:300');
 }
 
-// 获取跨域头
+// Get CORS headers
 function getCorsHeaders(request: Request) {
   const baseHeaders: Record<string, string> = {
     'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ function createErrorResponse(error: string, message: string, status = 400, reque
 export async function POST(request: Request) {
   
   try {
-    // 解析请求体
+    // Parse request body
     const body = await request.json();
     const { prompt, model, size } = body;
 
@@ -104,24 +104,24 @@ export async function POST(request: Request) {
       return createErrorResponse('UNSUPPORTED_MODEL', 'Unsupported model', 400, request);
     }
 
-    // 检查API密钥
+    // Check API key
     const apiKey = process.env[modelConfig.envKey];
     if (!apiKey) {
       return createErrorResponse('API_KEY_NOT_CONFIGURED', `${modelConfig.envName} API key not configured`, 500, request);
     }
 
-    // 生成图片
+    // Generate image
     const imageModel = modelConfig.provider.image(model);
     console.log('Image model:', imageModel, 'Prompt:', prompt, 'Size:', size);
     
     const imageResult = await generateImage({
       model: imageModel,
       prompt: prompt,
-      size: size, // 使用前端传递的尺寸
+      size: size, // Use frontend-provided size
     });
 
 
-    // 统一处理返回格式
+    // Unified response format
     const imageUrl = `data:image/png;base64,${imageResult.image.base64}`;
     
     return new Response(JSON.stringify({
@@ -136,10 +136,10 @@ export async function POST(request: Request) {
   } catch (error: any) {
     console.error('Error generating image:', error);
     
-    // 提取具体的错误信息
+    // Extract specific error information
     let errorMessage = 'Failed to generate image';
     
-    // 尝试多种错误格式
+    // Try multiple error formats
     if (error?.data?.error?.message) {
       errorMessage = error.data.error.message;
     } else if (error?.data?.message) {

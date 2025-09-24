@@ -25,7 +25,7 @@ export default function Home() {
   const [error, setError] = useState('')
   const [generationTime, setGenerationTime] = useState<string | null>(null)
 
-  // 根据当前模型计算支持的尺寸列表
+  // Calculate supported size list based on current model
   const sizeOptions = useMemo(() => {
     const supportedSizes = getSupportedSizes(model)
     return supportedSizes.map(size => ({
@@ -34,7 +34,7 @@ export default function Home() {
     }))
   }, [model])
 
-  // 当模型改变时，自动更新尺寸为默认尺寸
+  // When model changes, automatically update size to default size
   useEffect(() => {
     const defaultSize = getDefaultSize(model)
     setSize(defaultSize)
@@ -54,7 +54,7 @@ export default function Home() {
     setGenerationTime(null)
 
     try {
-      // 开发模式和生产模式都使用相对路径
+      // Use relative path for both development and production modes
       const apiUrl = '/api/generate-image'
       
       const response = await fetch(apiUrl, {
@@ -75,7 +75,7 @@ export default function Home() {
         throw new Error(data.message || data.error || 'Failed to generate image')
       }
 
-      // 记录生成完成的时间戳
+      // Record generation completion timestamp
       const now = new Date()
       const timestamp = now.toISOString().replace('T', ' ').replace('Z', ' UTC')
       setGenerationTime(timestamp)

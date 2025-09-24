@@ -1,11 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 注释掉静态导出，因为API路由需要服务器端渲染
-  // output: 'export',  // 启用静态导出
+  // Comment out static export because API routes need server-side rendering
+  // output: 'export',  // Enable static export
   images: {
-    unoptimized: true  // 静态导出时需要禁用图片优化
+    unoptimized: true  // Disable image optimization for static export
   },
-  trailingSlash: true,  // 添加尾部斜杠，提高兼容性
+  trailingSlash: true,  // Add trailing slash for better compatibility
 };
 
 module.exports = nextConfig;

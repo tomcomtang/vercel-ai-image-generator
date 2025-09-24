@@ -22,7 +22,7 @@ export default function CountdownTimer({ isActive, onComplete }: CountdownTimerP
           }
           return newTime;
         });
-      }, 100); // 每100ms更新一次，显示小数
+      }, 100); // Update every 100ms to show decimals
     } else {
       setTimeLeft(30);
     }
@@ -39,15 +39,15 @@ export default function CountdownTimer({ isActive, onComplete }: CountdownTimerP
   return (
     <div className="flex items-center justify-center">
       <div className="relative">
-        {/* 圆形背景 */}
+        {/* Circular background */}
         <div className="w-16 h-16 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
           <span className="text-white text-xl font-bold">{timeLeft.toFixed(1)}</span>
         </div>
-        {/* 进度环 */}
+        {/* Progress ring */}
         <div 
           className="absolute inset-0 w-16 h-16 rounded-full border-2 border-transparent border-t-blue-500 transition-all duration-100"
           style={{
-            transform: `rotate(${((30 - timeLeft) * 12) - 90}deg)`, // 30秒转360度
+            transform: `rotate(${((30 - timeLeft) * 12) - 90}deg)`, // 30 seconds to 360 degrees
           }}
         />
       </div>
