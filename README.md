@@ -4,7 +4,7 @@ A powerful AI-powered image generation application built with Vercel AI SDK, sup
 
 ## 🚀 Deploy
 
-[![Deploy to EdgeOne](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://console.tencentcloud.com/edgeone/pages/new?template=https%3A%2F%2Fgithub.com%2Ftomcomtang%2Fvercel-ai-image-generator&output-directory=.next&build-command=npm+run+build&install-command=npm+install)
+[![Deploy to EdgeOne](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?template=https%3A%2F%2Fgithub.com%2Ftomcomtang%2Fvercel-ai-image-generator&output-directory=.next&build-command=npm+run+build&install-command=npm+install)
 
 ## 🎨 Features
 
