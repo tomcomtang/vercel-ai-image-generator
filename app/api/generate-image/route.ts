@@ -9,6 +9,30 @@ import { fal } from '@ai-sdk/fal'
 import { replicate } from '@ai-sdk/replicate'
 import { experimental_generateImage as generateImage } from 'ai'
 
+/**
+ * Environment Variables Configuration:
+ * 
+ * For EdgeOne Pages deployment:
+ * - Configure environment variables in EdgeOne Pages console
+ * - Go to Settings > Environment Variables
+ * - Add the required API keys for the models you want to use
+ * 
+ * For local development:
+ * - Create a .env.local file in the project root
+ * - Add the required API keys (see modelProviderMap below for envKey names)
+ * 
+ * Required environment variables:
+ * - OPENAI_API_KEY: For OpenAI DALL-E models
+ * - FAL_API_KEY: For FAL AI FLUX models
+ * - FIREWORKS_API_KEY: For Fireworks models
+ * - REPLICATE_API_TOKEN: For Replicate models
+ * - GOOGLE_GENERATIVE_AI_API_KEY: For Google Imagen models
+ * - DEEPINFRA_API_KEY: For DeepInfra models
+ * - LUMA_API_KEY: For Luma models
+ * - TOGETHER_AI_API_KEY: For TogetherAI models
+ * - XAI_API_KEY: For xAI models
+ */
+
 // Model to provider mapping
 const modelProviderMap = {
   // OpenAI models
@@ -105,6 +129,8 @@ export async function POST(request: Request) {
     }
 
     // Check API key
+    // Note: Configure environment variables in EdgeOne Pages console under Settings > Environment Variables
+    // For local development, create .env.local file with the required API keys
     const apiKey = process.env[modelConfig.envKey];
     if (!apiKey) {
       return createErrorResponse('API_KEY_NOT_CONFIGURED', `${modelConfig.envName} API key not configured`, 500, request);

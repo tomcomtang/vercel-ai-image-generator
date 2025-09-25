@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaCat, FaCity, FaPalette, FaHome, FaRobot, FaTree } from 'react-icons/fa';
+import { FaCat, FaCloud, FaPalette, FaHome, FaRobot, FaTree } from 'react-icons/fa';
 
 interface ExamplesSectionProps {
   onExampleClick: (prompt: string) => void;
@@ -7,7 +7,7 @@ interface ExamplesSectionProps {
 
 const examples = [
   { icon: FaCat, short: "Cat", full: "A cute cat playing in a garden" },
-  { icon: FaCity, short: "City", full: "Futuristic cityscape at night" },
+  { icon: FaCloud, short: "Sky", full: "Beautiful sunset sky with clouds" },
   { icon: FaPalette, short: "Art", full: "Beautiful landscape in watercolor style" },
   { icon: FaHome, short: "Home", full: "Modern minimalist interior design" }
 ];

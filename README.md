@@ -62,6 +62,8 @@ npm install
 
 ### 2. Environment Setup
 
+#### Local Development
+
 Create a `.env.local` file with your API keys:
 
 ```bash
@@ -76,7 +78,33 @@ FIREWORKS_API_KEY=your_fireworks_api_key
 
 # Replicate (for Replicate models)
 REPLICATE_API_TOKEN=your_replicate_token
+
+# Google (for Imagen models)
+GOOGLE_GENERATIVE_AI_API_KEY=your_google_api_key
+
+# DeepInfra (for DeepInfra models)
+DEEPINFRA_API_KEY=your_deepinfra_api_key
+
+# Luma (for Luma models)
+LUMA_API_KEY=your_luma_api_key
+
+# TogetherAI (for TogetherAI models)
+TOGETHER_AI_API_KEY=your_togetherai_api_key
+
+# xAI (for xAI models)
+XAI_API_KEY=your_xai_api_key
 ```
+
+#### EdgeOne Pages Deployment
+
+For EdgeOne Pages deployment, configure environment variables in the EdgeOne console:
+
+1. Go to your EdgeOne Pages project
+2. Navigate to **Settings** → **Environment Variables**
+3. Add the required API keys for the models you want to use
+4. Redeploy your application
+
+**Note**: You only need to configure the API keys for the models you plan to use. The application will show helpful error messages if a required API key is missing.
 
 ### 3. Run Development Server
 
