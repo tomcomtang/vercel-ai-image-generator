@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { ImageIcon, Loader2, AlertCircle } from 'lucide-react'
 import Navigation from '../components/Navigation'
-import InputSection from '../components/InputSection'
 import ExamplesSection from '../components/ExamplesSection'
 import ModelSelector from '../components/ModelSelector'
 import SizeSelector from '../components/SizeSelector'
@@ -24,6 +23,8 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [generationTime, setGenerationTime] = useState<string | null>(null)
+  const [isTimeout, setIsTimeout] = useState(false)
+  const isTimeoutRef = useRef(false)
 
   // Calculate supported size list based on current model
   const sizeOptions = useMemo(() => {
@@ -52,6 +53,8 @@ export default function Home() {
     setError('')
     setImages([])
     setGenerationTime(null)
+    setIsTimeout(false)
+    isTimeoutRef.current = false
 
     try {
       // Use relative path for both development and production modes
@@ -75,13 +78,19 @@ export default function Home() {
         throw new Error(data.message || data.error || 'Failed to generate image')
       }
 
-      // Record generation completion timestamp
-      const now = new Date()
-      const timestamp = now.toISOString().replace('T', ' ').replace('Z', ' UTC')
-      setGenerationTime(timestamp)
-      setImages(data.images)
+      // Only update images if not already timed out
+      if (!isTimeoutRef.current) {
+        // Record generation completion timestamp
+        const now = new Date()
+        const timestamp = now.toISOString().replace('T', ' ').replace('Z', ' UTC')
+        setGenerationTime(timestamp)
+        setImages(data.images)
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
+      // Only update error if not already timed out
+      if (!isTimeoutRef.current) {
+        setError(err instanceof Error ? err.message : 'An error occurred')
+      }
     } finally {
       setLoading(false)
     }
@@ -89,7 +98,9 @@ export default function Home() {
 
   const handleTimeout = () => {
     setLoading(false)
-    setError('Image generation timeout (30 seconds)')
+    setIsTimeout(true)
+    isTimeoutRef.current = true
+    setError('Image generation timed out (30s). Please try again or switch to a different model.')
   }
 
   const downloadImage = async (url: string, filename: string) => {
