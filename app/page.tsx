@@ -58,7 +58,7 @@ export default function Home() {
 
     try {
       // Use relative path for both development and production modes
-      const apiUrl = '/api/generate-image'
+      const apiUrl = '/api/ai'
       
       const response = await fetch(apiUrl, {
         method: 'POST',

@@ -119,7 +119,7 @@ Visit [http://localhost:3000](http://localhost:3000) to start generating images!
 ### Generate Image
 
 ```bash
-POST /api/generate-image
+POST /api/ai
 Content-Type: application/json
 
 {
@@ -147,7 +147,7 @@ Content-Type: application/json
 ```
 ├── app/
 │   ├── api/
-│   │   └── generate-image/
+│   │   └── ai/
 │   │       └── route.ts          # API route handler
 │   ├── globals.css               # Global styles
 │   ├── layout.tsx                # Root layout
