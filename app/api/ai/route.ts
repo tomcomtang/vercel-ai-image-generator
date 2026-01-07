@@ -132,13 +132,13 @@ function createErrorResponse(error: string, message: string, status = 400, reque
   )
 }
 
-// 强制动态渲染
+// Force dynamic rendering
 export const dynamic = 'force-dynamic'
 
-// 设置 API Route 的最大执行时间为 30 秒（与前端超时时间一致）
-// Next.js 默认超时时间根据部署环境不同，通常为 10-60 秒
-// 这里设置为 30 秒，确保与前端超时时间匹配
-export const maxDuration = 30 // 单位：秒
+// Set API Route maximum execution time to 30 seconds (matches frontend timeout)
+// Next.js default timeout varies by deployment environment, usually 10-60 seconds
+// Setting to 30 seconds here to match frontend timeout
+export const maxDuration = 30 // Unit: seconds
 
 export async function POST(request: NextRequest) {
   try {
